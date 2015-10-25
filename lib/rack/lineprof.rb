@@ -1,6 +1,5 @@
 require 'rblineprof'
 require 'logger'
-require 'term/ansicolor'
 
 module Rack
   class Lineprof
