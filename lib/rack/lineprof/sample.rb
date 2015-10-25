@@ -6,7 +6,7 @@ module Rack
         formatted = if level == CONTEXT
           sprintf "               | % 3i  %s", line, code
         else
-          sprintf "% 6.1fms %5i | % 3i  %s", ms, calls, line, code
+          sprintf "0.0.0.0 - - [%s] \"line %i %s\" 200 0 \"-\" \"-\" %f\n", Time.now, line, code.chomp.gsub("\"", ""), ms
         end
 
         return formatted unless colorize
