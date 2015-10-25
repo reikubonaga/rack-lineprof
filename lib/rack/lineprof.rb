@@ -26,11 +26,14 @@ module Rack
 
       return @app.call env unless matcher
 
+      def logger.write(msg)
+        self << msg
+      end
+
       response = nil
       profile = lineprof(%r{#{matcher}}) { response = @app.call env }
 
-      logger.debug Term::ANSIColor.blue("\n[Rack::Lineprof] #{'=' * 63}") + "\n\n" +
-           format_profile(profile) + "\n"
+      logger.write format_profile(profile)
 
       response
     end

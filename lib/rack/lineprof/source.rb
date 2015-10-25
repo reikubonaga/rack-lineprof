@@ -11,7 +11,7 @@ module Rack
       def format colorize = true
         return nil if samples.empty?
 
-        formatted = file_name.sub(Dir.pwd + '/', '') + "\n"
+        formatted = ""
 
         prev_line = samples.first.line - 1
         samples.each do |sample|
