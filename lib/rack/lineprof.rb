@@ -30,6 +30,8 @@ module Rack
         self << msg
       end
 
+      options[:ip] = request.ip
+
       response = nil
       profile = lineprof(%r{#{matcher}}) { response = @app.call env }
 

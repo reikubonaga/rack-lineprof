@@ -33,7 +33,7 @@ module Rack
             next if ms <= 0.2
 
             next unless code = source_lines[line - 1]
-            parsed << Sample.new(ms, line, code)
+            parsed << Sample.new(options[:ip], ms, line, code)
           end
 
           parsed
