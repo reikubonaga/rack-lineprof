@@ -31,13 +31,8 @@ module Rack
             calls = sample[2]
 
             abnormal = ms >= thresholds[NOMINAL]
-            near_abnormal = (line-context..line+context).any? do |near|
-              near = [1, near].max
-              next unless raw_samples[near]
-              (raw_samples[near][0] / 1000.0) >= thresholds[NOMINAL]
-            end
 
-            next unless abnormal or near_abnormal
+            next unless abnormal
 
             threshold = thresholds.invert.detect { |th, _| ms > th }
             level = threshold ? threshold.last : CONTEXT
