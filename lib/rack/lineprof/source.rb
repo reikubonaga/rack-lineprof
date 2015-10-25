@@ -30,15 +30,10 @@ module Rack
             ms = sample[0] / 1000.0
             calls = sample[2]
 
-            abnormal = ms >= thresholds[NOMINAL]
-
-            next unless abnormal
-
-            threshold = thresholds.invert.detect { |th, _| ms > th }
-            level = threshold ? threshold.last : CONTEXT
+            next if ms <= 0.2
 
             next unless code = source_lines[line - 1]
-            parsed << Sample.new(ms, calls, line, code, level)
+            parsed << Sample.new(ms, line, code)
           end
 
           parsed
@@ -48,25 +43,6 @@ module Rack
       def source_lines
         @source_lines ||= ::File.open(file_name, 'r').to_a
       end
-
-      private
-
-      def color
-        Term::ANSIColor
-      end
-
-      def context
-        options.fetch :context, 2
-      end
-
-      def thresholds
-        @thresholds ||= {
-          CRITICAL => 50,
-          WARNING  => 5,
-          NOMINAL  => 0.2
-        }.merge(options.fetch :thresholds, {})
-      end
-
     end
   end
 end
